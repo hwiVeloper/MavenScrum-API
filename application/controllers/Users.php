@@ -11,11 +11,6 @@ class Users extends REST_Controller {
     $this->load->model('MUser');
   }
 
-  /**
-  * @api
-  * @param String $id id of user
-  * @return Array|null result of one user
-  */
   function index_get()
   {
     $id = $this->get('id');
