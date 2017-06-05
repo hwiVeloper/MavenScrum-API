@@ -57,4 +57,7 @@ $route['users/id/(:any)'] = 'users/index/id/$1';
 
 $route['auth'] = 'auth/index';
 
-// $route['plan/other/plan/(:any)/user(:any)'] = 'plan/other/plan/$1/user/$2';
+$route['suggestion'] = 'suggestion/index';
+
+$route['forum'] = 'forum/index';
+$route['forum/date/(:any)'] = 'forum/index/date/$1';

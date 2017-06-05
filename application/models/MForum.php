@@ -8,7 +8,11 @@ class MForum extends CI_Model{
   }
 
   function get_forum_list_by_ym($ym) {
-    $sql = "SELECT *
+    $sql = "SELECT forum_title
+                 , forum_content
+                 , forum_writer
+                 , forum_type
+                 , forum_dttm
                  , user_name
                  , user_img
             FROM scrum_forum_detail d
