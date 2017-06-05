@@ -6,16 +6,29 @@ class MPlan extends CI_Model {
   /**
    * PRIMARY FUNCTIONS
    */
-  function view_plan($date, $user) {
-    $sql = "SELECT p.*
+  function plan_detail_by_date_user($date, $user) {
+    $sql = "SELECT i.plan_date
+                 , i.user_id
                  , user_name
                  , user_img
-            FROM scrum_plan p
+                 , plan_comment
+            FROM scrum_plan_info i
                , scrum_user u
-            WHERE p.user_id = '$user'
+            WHERE i.user_id = '$user'
             AND plan_date = '$date'
-            AND p.user_id = u.user_id
-            ORDER BY plan_detail_seq";
+            AND i.user_id = u.user_id
+            GROUP BY i.plan_date, i.user_id";
+    $query = $this->db->query($sql);
+    return $query->row();
+  }
+
+  function plan_cotents_by_date_user($date, $user) {
+    $sql = "SELECT plan_detail_seq
+                 , plan_content
+                 , plan_status
+            FROM scrum_plan
+            WHERE plan_date = '$date'
+            AND user_id = '$user'";
     $query = $this->db->query($sql);
     return $query->result_array();
   }
@@ -34,7 +47,7 @@ class MPlan extends CI_Model {
     }
   }
 
-  function view_reply($date, $user) {
+  function reply_by_date_user($date, $user) {
     $this->db->query("SET @rownum := 0;");
     $sql = "SELECT level - 1 AS reply_level
                  , r.*
