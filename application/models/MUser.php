@@ -30,6 +30,4 @@ class MUser extends CI_Model{
     $query = $this->db->get('scrum_user');
     return $query->result_array();
   }
-
-  function
 }

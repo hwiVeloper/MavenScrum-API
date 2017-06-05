@@ -14,35 +14,36 @@ class MDashboard extends CI_Model {
   }
 
   function today_plans($date) {
-    $sql = "SELECT p1.*
+    $sql = "SELECT p.plan_date
+                 , p.user_id
+                 , u.user_name
+                 , concat('http://scrum.mismaven.kr/assets/img/member/', u.user_img) AS user_img
                  , i.plan_comment
                  , i.plan_creation_dttm
-                 , u.user_img
-                 , u.user_name
                  , (SELECT COUNT(*)
-                    FROM scrum_plan
-                    WHERE plan_date = p1.plan_date
-                    AND user_id = p1.user_id) AS each_count
-                 , (SELECT COUNT(*)
-                    FROM scrum_reply
-                    WHERE plan_date = '$date'
-                    AND user_id = p1.user_id) AS reply_count
-            FROM scrum_plan AS p1
-               , scrum_user AS u
-               , scrum_plan_info AS i
-            WHERE p1.user_id = u.user_id
-              AND p1.plan_date = i.plan_date
-              AND p1.user_id = i.user_id
-              AND p1.plan_detail_seq <= 2
-              AND p1.plan_date = '$date'
-            GROUP BY p1.user_id
-                   , p1.plan_content
-                   , p1.plan_status
-            ORDER BY i.plan_creation_dttm
-                   , p1.plan_date
-                   , p1.user_id
-                   , p1.plan_detail_seq";
-                   
+                                FROM scrum_reply
+                                WHERE plan_date = i.plan_date
+                                AND user_id = i.user_id) AS reply_count
+            from scrum_user u, scrum_plan_info i
+            left join scrum_plan p on i.plan_date = p.plan_date AND i.user_id = p.user_id
+            where i.plan_date = '$date'
+            and u.user_id = i.user_id
+            and p.plan_detail_seq <= 2
+            group by p.plan_date, p.user_id
+            order by plan_creation_dttm
+            ";
+
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+
+  function plan_by_date_user($date, $user) {
+    $sql = "SELECT p.plan_detail_seq
+                 , p.plan_content
+                 , p.plan_status
+            FROM scrum_plan p
+            WHERE p.plan_date = '$date'
+            AND p.user_id = '$user'";
     $query = $this->db->query($sql);
     return $query->result_array();
   }
