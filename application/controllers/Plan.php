@@ -37,15 +37,15 @@ class Plan extends REST_Controller {
     $result = $this->MDashboard->today_plans($date);
     $count = $this->MDashboard->today_count($date);
 
-    if ($count > 0) {
-      // plan detail contents
-      foreach ($result as $k => $row) {
-        $result[$k]['details'] = $this->MDashboard->plan_by_date_user($date, $result[$k]['user_id']);
-      }
+    $response = array(
+      "result" => $result,
+      "count" => $count
+    );
 
-      $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+    if ($count > 0) {
+      $this->set_response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
     } else {
-      $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+      $this->set_response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
     }
   }
 

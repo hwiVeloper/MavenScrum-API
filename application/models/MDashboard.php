@@ -24,6 +24,12 @@ class MDashboard extends CI_Model {
                                 FROM scrum_reply
                                 WHERE plan_date = i.plan_date
                                 AND user_id = i.user_id) AS reply_count
+                 , (SELECT plan_content FROM scrum_plan pp
+                    WHERE plan_date = '$date' AND pp.user_id = i.user_id AND plan_detail_seq = 0) AS plan_content_1
+                 , (SELECT plan_content FROM scrum_plan pp
+                    WHERE plan_date = '$date' AND pp.user_id = i.user_id AND plan_detail_seq = 1) AS plan_content_2
+                 , (SELECT plan_content FROM scrum_plan pp
+                    WHERE plan_date = '$date' AND pp.user_id = i.user_id AND plan_detail_seq = 2) AS plan_content_3
             from scrum_user u, scrum_plan_info i
             left join scrum_plan p on i.plan_date = p.plan_date AND i.user_id = p.user_id
             where i.plan_date = '$date'
