@@ -10,7 +10,7 @@ class MPlan extends CI_Model {
     $sql = "SELECT i.plan_date
                  , i.user_id
                  , user_name
-                 , user_img
+                 , concat('http://scrum.mismaven.kr/assets/img/member/', user_img) AS user_img
                  , plan_comment
             FROM scrum_plan_info i
                , scrum_user u

@@ -53,14 +53,13 @@ class Plan extends REST_Controller {
     $date = $this->get('date');
     $user = $this->get('user');
 
-    $result = $this->MPlan->plan_detail_by_date_user($date, $user);
+    $result = array(
+      "info" => $this->MPlan->plan_detail_by_date_user($date, $user),
+      "details" => $this->MPlan->plan_cotents_by_date_user($date, $user),
+      "replies" => $this->MPlan->reply_by_date_user($date, $user)
+    );
 
     if ($result) {
-      // plan detail contents
-      $result->details = $this->MPlan->plan_cotents_by_date_user($date, $result->user_id);
-      // reply in plan
-      $result->replies = $this->MPlan->reply_by_date_user($date, $result->user_id);
-
       $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
     } else {
       $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
