@@ -52,7 +52,7 @@ class MPlan extends CI_Model {
     $sql = "SELECT level - 1 AS reply_level
                  , r.*
                  , (SELECT user_name FROM scrum_user WHERE user_id = r.write_user) AS user_name
-                 , (SELECT user_img FROM scrum_user WHERE user_id = r.write_user) AS user_img
+                 , concat('http://scrum.mismaven.kr/assets/img/member/', (SELECT user_img FROM scrum_user WHERE user_id = r.write_user) ) AS user_img
                  , func.level
             FROM (SELECT @rownum := @rownum + 1 AS rownum
                        , get_lvl() AS id
