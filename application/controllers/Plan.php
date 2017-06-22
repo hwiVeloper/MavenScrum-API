@@ -55,7 +55,6 @@ class Plan extends REST_Controller {
 
     $result = array(
       "details" => $this->MPlan->plan_cotents_by_date_user($date, $user),
-      "replies" => $this->MPlan->reply_by_date_user($date, $user),
       "replyCount" => $this->MPlan->count_reply($date, $user)
     );
 

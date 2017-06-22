@@ -61,3 +61,5 @@ $route['suggestion'] = 'suggestion/index';
 
 $route['forum'] = 'forum/index';
 $route['forum/date/(:any)'] = 'forum/index/date/$1';
+
+$route['reply/date/(:any)/user/(:any)'] = 'reply/index/date/$1/user/$2';
