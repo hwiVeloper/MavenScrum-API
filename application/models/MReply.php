@@ -53,7 +53,14 @@ class MReply extends CI_Model{
   function reply_by_date_user($date, $user) {
     $this->db->query("SET @rownum := 0;");
     $sql = "SELECT level - 1 AS reply_level
-                 , r.*
+                 , r.reply_id
+                 , r.user_id
+                 , r.write_user
+                 , r.plan_date
+                 , REPLACE(r.reply_comment, '<br />', '') AS reply_comment
+                 , r.reply_timestamp
+                 , r.up_reply_id
+                 , r.up_reply_user
                  , (SELECT user_name FROM scrum_user WHERE user_id = r.write_user) AS user_name
                  , concat('http://scrum.mismaven.kr/assets/img/member/', (SELECT user_img FROM scrum_user WHERE user_id = r.write_user) ) AS user_img
                  , func.level
