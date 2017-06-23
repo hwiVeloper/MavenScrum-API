@@ -8,11 +8,13 @@ class MSuggestions extends CI_Model{
   }
 
   function get_suggestions() {
-    $sql = "SELECT s.*
+    $sql = "SELECT s.suggestion_id
+                 , s.user_id
+                 , s.suggestion_content
+                 , s.suggestion_timestamp
+                 , s.suggestion_complete
                  , u.user_name AS user_name
                  , u.user_img AS user_img
-                 , IFNULL(c.user_name, '') AS dev_name
-                 , IFNULL(c.user_img, '') AS dev_img
             FROM scrum_suggestion s LEFT JOIN scrum_user c ON s.suggestion_complete_user_id = c.user_id
                , scrum_user u
             WHERE s.user_id = u.user_id

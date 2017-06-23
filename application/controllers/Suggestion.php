@@ -12,7 +12,9 @@ class Suggestion extends REST_Controller {
   }
 
   function index_get() {
-    $result = $this->MSuggestions->get_suggestions();
+    $result = array(
+      "result" => $this->MSuggestions->get_suggestions()
+    );
 
     if ($result)
     {

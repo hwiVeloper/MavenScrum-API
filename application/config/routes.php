@@ -53,13 +53,17 @@ $route['default_controller'] = '';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+/*
+ | -------------------------------------------------------------------------
+ | API Routing
+ | -------------------------------------------------------------------------
+ */
 $route['users/id/(:any)'] = 'users/index/id/$1';
 
 $route['auth'] = 'auth/index';
 
 $route['suggestion'] = 'suggestion/index';
 
-$route['forum'] = 'forum/index';
 $route['forum/date/(:any)'] = 'forum/index/date/$1';
 
 $route['reply/date/(:any)/user/(:any)'] = 'reply/index/date/$1/user/$2';
