@@ -34,17 +34,15 @@ class MPlan extends CI_Model {
   }
 
   function view_comment($date, $user) {
-    $sql = "SELECT plan_comment
-            FROM scrum_plan_info
-            WHERE user_id = '$user'
-            AND plan_date = '$date'";
-    $query = $this->db->query($sql);
+    $this->db->select('plan_comment');
+    // $this->db->from('scrum_plan_info');
+    $this->db->where('user_id', $user);
+    $this->db->where('plan_date', $date);
+
+    $query = $this->db->get('scrum_plan_info');
     $row = $query->row();
-    if($row) {
-      return $row->plan_comment;
-    }else {
-      return "";
-    }
+
+    return isset($row) ? $row->plan_comment : "";
   }
 
   function reply_by_date_user($date, $user) {
@@ -78,6 +76,14 @@ class MPlan extends CI_Model {
     $query = $this->db->query($sql);
     $row = $query->row();
     return $row->count;
+  }
+
+  function count_plan_details($date, $user) {
+      $this->db->from('scrum_plan');
+      $this->db->where('plan_date', $date);
+      $this->db->where('user_id', $user);
+
+      return $this->db->count_all_results();
   }
 
   function add_plan($data) {

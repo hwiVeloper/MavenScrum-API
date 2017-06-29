@@ -12,10 +12,14 @@ class Forum extends REST_Controller {
   }
 
   function index_get() {
-    $ym = $this->get('date') ? $this->get('date') : date('Ym');
+    $seq = $this->get('seq');
 
-    $result['base_ym'] = $ym;
-    $result['details'] = $this->MForum->get_forum_list_by_ym($ym);
+    // $result['base_ym'] = $ym;
+    // $result['details'] = $this->MForum->get_forum_list_by_seq($ym);
+
+    $result = array(
+      "result" => $this->MForum->get_forum_list_by_seq($seq)
+    );
 
     if ($result)
     {

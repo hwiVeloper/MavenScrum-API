@@ -7,19 +7,19 @@ class MForum extends CI_Model{
     parent::__construct();
   }
 
-  function get_forum_list_by_ym($ym) {
-    $sql = "SELECT forum_title
-                 , forum_content
+  function get_forum_list_by_seq($seq) {
+    $sql = "SELECT forum_seq
+                 , f.forum_ym
                  , forum_writer
+                 , forum_title
                  , forum_type
                  , forum_dttm
-                 , user_name
-                 , user_img
-            FROM scrum_forum_detail d
-               , scrum_user u
-            WHERE forum_ym = '$ym'
-            AND u.user_id = d.forum_writer
-            ORDER BY d.forum_dttm";
+                 , forum_content
+                 , (SELECT user_name FROM scrum_user WHERE user_id = d.forum_writer) AS user_name
+            FROM scrum_forum f
+               , scrum_forum_detail d
+            WHERE forum_seq = $seq
+            AND f.forum_ym = d.forum_ym";
     $query = $this->db->query($sql);
 
     return $query->result_array();

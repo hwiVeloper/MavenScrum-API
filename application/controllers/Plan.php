@@ -55,7 +55,25 @@ class Plan extends REST_Controller {
 
     $result = array(
       "details" => $this->MPlan->plan_cotents_by_date_user($date, $user),
-      "replyCount" => $this->MPlan->count_reply($date, $user)
+      "replyCount" => $this->MPlan->count_reply($date, $user),
+      "comment" => $this->MPlan->view_comment($date, $user)
+    );
+
+    if ($result) {
+      $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+    } else {
+      $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+    }
+  }
+
+  function my_get() {
+    $date = $this->get('date');
+    $user = $this->get('user');
+
+    $result = array(
+      "result" => $this->MPlan->plan_cotents_by_date_user($date, $user),
+      "count" => $this->MPlan->count_plan_details($date, $user),
+      "comment" => $this->MPlan->view_comment($date, $user)
     );
 
     if ($result) {
